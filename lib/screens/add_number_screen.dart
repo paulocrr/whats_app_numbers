@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:form_field_validator/form_field_validator.dart';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
+import 'package:uuid/uuid.dart';
+import 'package:whats_app_numbers/extensions/phone_number_extension.dart';
 import 'package:whats_app_numbers/languages/whats_app_numbers_strings.dart';
+import 'package:whats_app_numbers/models/phone_number.dart';
 import 'package:whats_app_numbers/widgets/whats_app_number_text_form_field.dart';
 
 class AddNumberScreen extends StatefulWidget {
@@ -60,8 +63,13 @@ class _AddNumberScreenState extends State<AddNumberScreen> {
               ElevatedButton.icon(
                 onPressed: () {
                   if (_formKey.currentState!.validate()) {
-                    print(_numberController.text);
-                    print(_descriptionController.text);
+                    final phoneNumber = PhoneNumber(
+                      id: const Uuid().v1(),
+                      number: _numberController.text,
+                      description: _descriptionController.text,
+                    );
+
+                    phoneNumber.openWhatsAppWebPage();
                   }
                 },
                 icon: const Icon(Icons.person_add_alt),
