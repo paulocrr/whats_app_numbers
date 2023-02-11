@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:uuid/uuid.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:whats_app_numbers/languages/whats_app_numbers_strings.dart';
 import 'package:whats_app_numbers/models/phone_number.dart';
+import 'package:whats_app_numbers/models/shared_preferences_key.dart';
 import 'package:whats_app_numbers/screens/add_number_screen.dart';
 import 'package:whats_app_numbers/screens/list_numbers_screen.dart';
 
@@ -13,33 +14,22 @@ class MainScreen extends StatefulWidget {
 }
 
 class _MainScreenState extends State<MainScreen> {
-  final List<PhoneNumber> phoneNumbers = [
-    PhoneNumber(
-      id: const Uuid().v1(),
-      number: '(+51) 959 356 062',
-      description: 'Prueba',
-    ),
-    PhoneNumber(
-      id: const Uuid().v1(),
-      number: '(+51) 959 356 062',
-      description: 'Prueba',
-    ),
-    PhoneNumber(
-      id: const Uuid().v1(),
-      number: '(+51) 959 356 062',
-      description: 'Prueba',
-    ),
-    PhoneNumber(
-      id: const Uuid().v1(),
-      number: '(+51) 959 356 062',
-      description: 'Prueba',
-    ),
-    PhoneNumber(
-      id: const Uuid().v1(),
-      number: '(+51) 959 356 062',
-      description: 'Prueba',
-    ),
-  ];
+  List<PhoneNumber> phoneNumbers = [];
+
+  @override
+  void initState() {
+    loadPhoneNumbersList();
+    super.initState();
+  }
+
+  void loadPhoneNumbersList() async {
+    final sharedPreferences = await SharedPreferences.getInstance();
+    setState(() {
+      phoneNumbers = PhoneNumber.stringToList(
+          sharedPreferences.getString(SharedPreferencesKey.phoneNumberList) ??
+              '');
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -65,7 +55,19 @@ class _MainScreenState extends State<MainScreen> {
         ),
         body: TabBarView(
           children: [
-            const AddNumberScreen(),
+            AddNumberScreen(
+              onSave: (phoneNumber) async {
+                final sharedPreferences = await SharedPreferences.getInstance();
+                setState(() {
+                  phoneNumbers.add(phoneNumber);
+                });
+
+                await sharedPreferences.setString(
+                  SharedPreferencesKey.phoneNumberList,
+                  PhoneNumber.listToString(phoneNumbers),
+                );
+              },
+            ),
             ListNumberScreen(
               phoneNumbers: phoneNumbers,
             ),

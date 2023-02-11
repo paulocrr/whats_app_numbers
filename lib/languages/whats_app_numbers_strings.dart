@@ -2,6 +2,7 @@ class WhatsAppNumbersStrings {
   static final myApp = _MyApp();
   static final mainScreen = _MainScreen();
   static final addNumberScreen = _AddNumberScreen();
+  static final listPhoneNumbersScreen = _ListPhoneNumbersScreen();
   static final textFieldErrors = _TextFieldErrors();
 }
 
@@ -19,6 +20,10 @@ class _AddNumberScreen {
   final numberLabel = 'Ingrese numero de telefono';
   final descriptionLabel = 'Descripcion';
   final addButtonText = 'Abrir en WA';
+}
+
+class _ListPhoneNumbersScreen {
+  final emptyListText = 'Su lista de numeros esta vacia';
 }
 
 class _TextFieldErrors {

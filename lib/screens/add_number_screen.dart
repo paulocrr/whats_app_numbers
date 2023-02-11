@@ -8,7 +8,9 @@ import 'package:whats_app_numbers/models/phone_number.dart';
 import 'package:whats_app_numbers/widgets/whats_app_number_text_form_field.dart';
 
 class AddNumberScreen extends StatefulWidget {
-  const AddNumberScreen({super.key});
+  final void Function(PhoneNumber)? onSave;
+
+  const AddNumberScreen({super.key, this.onSave});
 
   @override
   State<AddNumberScreen> createState() => _AddNumberScreenState();
@@ -68,6 +70,15 @@ class _AddNumberScreenState extends State<AddNumberScreen> {
                       number: _numberController.text,
                       description: _descriptionController.text,
                     );
+
+                    final onSave = widget.onSave;
+
+                    if (onSave != null) {
+                      onSave(phoneNumber);
+                    }
+
+                    _numberController.clear();
+                    _descriptionController.clear();
 
                     phoneNumber.openWhatsAppWebPage();
                   }

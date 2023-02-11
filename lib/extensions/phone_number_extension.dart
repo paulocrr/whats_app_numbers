@@ -13,4 +13,18 @@ extension PhoneNumberExtension on PhoneNumber {
       mode: LaunchMode.externalApplication,
     );
   }
+
+  void makePhoneCall() async {
+    final Uri launchUri = Uri(
+      scheme: 'tel',
+      path: number,
+    );
+    await launchUrl(launchUri);
+  }
+
+  Future<bool> hasCallSupport() async {
+    final result = await canLaunchUrl(Uri(scheme: 'tel', path: '123'));
+
+    return result;
+  }
 }
