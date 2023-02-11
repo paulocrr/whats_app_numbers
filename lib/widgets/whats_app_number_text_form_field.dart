@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 class WhatsAppNumberTextFormField extends StatelessWidget {
   final String labelText;
@@ -6,6 +7,7 @@ class WhatsAppNumberTextFormField extends StatelessWidget {
   final int? maxLength;
   final TextInputType? keyboardType;
   final String? Function(String?)? validator;
+  final List<TextInputFormatter>? inputFormatters;
 
   const WhatsAppNumberTextFormField({
     super.key,
@@ -14,6 +16,7 @@ class WhatsAppNumberTextFormField extends StatelessWidget {
     this.maxLength,
     this.keyboardType,
     this.validator,
+    this.inputFormatters,
   });
 
   @override
@@ -25,6 +28,7 @@ class WhatsAppNumberTextFormField extends StatelessWidget {
         keyboardType: keyboardType,
         maxLength: maxLength,
         controller: controller,
+        inputFormatters: inputFormatters,
         decoration: InputDecoration(
           enabledBorder: const OutlineInputBorder(),
           focusedBorder: const OutlineInputBorder(
