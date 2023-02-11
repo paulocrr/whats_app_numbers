@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:whats_app_numbers/languages/whats_app_numbers_strings.dart';
+import 'package:whats_app_numbers/screens/add_number_screen.dart';
+import 'package:whats_app_numbers/screens/list_numbers_screen.dart';
 
 class MainScreen extends StatelessWidget {
   const MainScreen({super.key});
@@ -26,7 +28,12 @@ class MainScreen extends StatelessWidget {
             ],
           ),
         ),
-        body: TabBarView(children: [Text('texto1'), Text('texto2')]),
+        body: const TabBarView(
+          children: [
+            AddNumberScreen(),
+            ListNumberScreen(),
+          ],
+        ),
       ),
     );
   }
